@@ -4,6 +4,9 @@ Bazaar Arb is a full-stack market intelligence dashboard for the Hypixel SkyBloc
 
 This project is well suited for a resume or portfolio because it combines external API ingestion, backend analysis, and frontend product design in one focused app.
 
+![Bazaar Arb screenshot](app/page/src/2026-06-05_16.02.12.png)
+![Bazaar Arb additional screenshot](app/page/src/2297E0A5-7AB5-4D7F-BB98-1346449196B3_1_201_a.jpeg)
+
 ## Why It Stands Out
 
 - Built a real-time arbitrage engine on top of the Hypixel Bazaar API.
@@ -96,4 +99,3 @@ A player or tool can query the API or open the dashboard to identify Bazaar item
 ## Resume-Friendly Project Description
 
 Built a full-stack arbitrage dashboard for the Hypixel SkyBlock Bazaar using FastAPI and Vite. Integrated live market data, implemented profit and liquidity scoring logic, and shipped a responsive UI with sorting, filtering, and persistent client-side settings to help users evaluate profitable in-game trading opportunities in real time.
-
