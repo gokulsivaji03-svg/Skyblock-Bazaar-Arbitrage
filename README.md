@@ -4,13 +4,13 @@ Bazaar Arb is a full-stack market intelligence dashboard for the Hypixel SkyBloc
 
 This project is well suited for a resume or portfolio because it combines external API ingestion, backend analysis, and frontend product design in one focused app.
 
-![Bazaar Arb additional screenshot](app/page/src/2297E0A5-7AB5-4D7F-BB98-1346449196B3_1_201_a.jpeg)
-
 ## Performance Snapshot
 
 - Total gained: 300 million coins
 - Trading volume: 6.3 billion coins
 - Executed across 570+ trades
+
+![Bazaar Arb additional screenshot](app/page/src/2297E0A5-7AB5-4D7F-BB98-1346449196B3_1_201_a.jpeg)
 
 ## Why It Stands Out
 
