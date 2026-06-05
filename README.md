@@ -7,6 +7,12 @@ This project is well suited for a resume or portfolio because it combines extern
 ![Bazaar Arb screenshot](app/page/src/2026-06-05_16.02.12.png)
 ![Bazaar Arb additional screenshot](app/page/src/2297E0A5-7AB5-4D7F-BB98-1346449196B3_1_201_a.jpeg)
 
+## Performance Snapshot
+
+- Total gained: 300 million coins
+- Trading volume: 6.3 billion coins
+- Executed across 570+ trades
+
 ## Why It Stands Out
 
 - Built a real-time arbitrage engine on top of the Hypixel Bazaar API.
