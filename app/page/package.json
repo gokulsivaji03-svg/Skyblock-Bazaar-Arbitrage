@@ -1,0 +1,17 @@
+{
+  "name": "my-fastapi-site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "backend": "cd /Users/gokulsivaji/Documents/sb/ && uvicorn main:app --reload",
+    "dev:all": "concurrently \"npm run backend\" \"npm run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3",
+    "vite": "^8.0.12"
+  }
+}
