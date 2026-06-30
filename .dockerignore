@@ -1,0 +1,12 @@
+.git
+.venv
+__pycache__/
+**/__pycache__/
+*.pyc
+data/
+app/page/node_modules
+app/page/dist
+node_modules
+*.json.bak
+skyblock_lookup_*.json
+skyblock_player_export_*.json

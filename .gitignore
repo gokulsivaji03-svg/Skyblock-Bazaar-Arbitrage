@@ -1,1 +1,8 @@
 .env
+__pycache__/
+*.pyc
+.venv/
+data/
+
+# Work-in-progress features (local experiments, not part of the shipped app)
+wip/

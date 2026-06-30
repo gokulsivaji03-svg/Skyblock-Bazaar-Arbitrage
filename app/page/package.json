@@ -1,5 +1,5 @@
 {
-  "name": "my-fastapi-site",
+  "name": "forge-and-flip",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -7,11 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "test:ui": "node scripts/table-smoke.mjs",
     "backend": "cd /Users/gokulsivaji/Documents/sb/ && uvicorn main:app --reload",
     "dev:all": "concurrently \"npm run backend\" \"npm run dev\""
   },
   "devDependencies": {
     "concurrently": "^10.0.3",
+    "playwright": "^1.49.1",
     "vite": "^8.0.12"
   }
 }

@@ -1,0 +1,14 @@
+{
+  "name": "forge-and-flip",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack Hypixel SkyBlock market intelligence: Bazaar flip arbitrage and Forge crafting profit.",
+  "scripts": {
+    "postinstall": "npm --prefix app/page install",
+    "dev": "npm --prefix app/page run dev",
+    "build": "npm --prefix app/page run build",
+    "preview": "npm --prefix app/page run preview",
+    "backend": "uvicorn main:app --reload",
+    "dev:all": "npm --prefix app/page run dev:all"
+  }
+}
