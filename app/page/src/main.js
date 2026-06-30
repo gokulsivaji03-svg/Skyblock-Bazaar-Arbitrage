@@ -366,8 +366,7 @@ function renderShell() {
           <div class="filters" id="filters" hidden></div>
 
           <div class="table-wrap">
-            <table>
-              <colgroup id="colgroup"></colgroup>
+            <table class="data-table">
               <thead><tr id="head"></tr></thead>
               <tbody id="body"></tbody>
             </table>
@@ -692,34 +691,31 @@ function cycleSort(key, event) {
   }
 }
 
-function renderColgroup() {
-  const cg = document.querySelector("#colgroup");
+function syncTableLayout() {
   const table = document.querySelector(".table-wrap table");
-  if (!cg) return;
+  if (!table) return;
   const cols = columnsFor(state.mode);
-  if (table) {
-    table.classList.toggle(
-      "has-budget",
-      state.profile.budget > 0 && (state.mode === "flip" || state.mode === "forge"),
-    );
-  }
-  if (!cols.length) {
-    cg.innerHTML = "";
-    return;
-  }
-  cg.innerHTML = cols
-    .map((col) => {
-      if (col.key === "_name") return '<col class="col-item">';
-      if (col.sticky) return '<col class="col-profit">';
-      return '<col class="col-num">';
-    })
-    .join("");
+  const hasBudget = state.profile.budget > 0 && (state.mode === "flip" || state.mode === "forge");
+  table.classList.toggle("has-budget", hasBudget);
+  table.style.minWidth = `${hasBudget ? 1086 : 1006}px`;
+
+  table.querySelectorAll("th.num:not(.sticky-col), td.num:not(.sticky-col)").forEach((el) => {
+    el.style.minWidth = "80px";
+    el.style.width = "80px";
+  });
+  table.querySelectorAll("th.sticky-col, td.sticky-col").forEach((el) => {
+    el.style.minWidth = "86px";
+    el.style.width = "86px";
+  });
+  table.querySelectorAll("th:first-child, td:first-child").forEach((el) => {
+    el.style.minWidth = "200px";
+    el.style.maxWidth = "320px";
+  });
 }
 
 function renderHead() {
   const head = document.querySelector("#head");
   if (!head) return;
-  renderColgroup();
   const cols = columnsFor(state.mode);
   if (!cols.length) {
     head.innerHTML = "";
@@ -746,6 +742,7 @@ function renderHead() {
     })
     .join("");
 
+  syncTableLayout();
 }
 
 function wireTableSort() {
@@ -896,6 +893,7 @@ function renderBody() {
     })
     .join("");
 
+  syncTableLayout();
   updateFoot(rows.length);
 }
 

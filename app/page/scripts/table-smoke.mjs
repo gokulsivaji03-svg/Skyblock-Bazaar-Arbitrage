@@ -21,9 +21,7 @@ const sample = await page.evaluate(() => {
     cells,
     collapsed,
     emptyText,
-    cols: [...document.querySelectorAll("colgroup col")].map((c) => c.className),
-    metricsHidden: document.querySelector("#stats")?.hidden,
-    tableMinWidth: getComputedStyle(document.querySelector("table")).minWidth,
+    tableMinWidth: getComputedStyle(document.querySelector("table.data-table")).minWidth,
   };
 });
 

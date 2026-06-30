@@ -581,37 +581,36 @@ a { color: inherit; text-decoration: none; }
   overscroll-behavior: contain;
 }
 
-table {
+table.data-table {
   width: 100%;
-  /* 11 bazaar cols: item 200px + 9×80px nums + 86px profit = 1006px minimum */
+  /* 11 bazaar cols: item ~240px + 9×80px nums + 86px profit ≈ 1006px */
   min-width: 1006px;
   border-collapse: collapse;
-  /* auto + explicit cell min-widths survives colgroup mistakes; fixed collapses to 0 */
-  table-layout: auto;
+  /* fixed + explicit th/td widths — colgroup width hints collapse to 0 in WebKit */
+  table-layout: fixed;
   font-size: 0.8rem;
 }
-table.has-budget {
-  /* +1 budget column (80px num col) */
+table.data-table.has-budget {
   min-width: 1086px;
 }
-col.col-item { width: 200px; }
-col.col-num { width: 80px; }
-col.col-profit { width: 86px; }
 
-/* Never collapse numeric columns — root cause of “empty” table cells in the redesign. */
-thead th:first-child,
-tbody td:first-child {
+/* Column widths on cells directly — never rely on <colgroup> alone. */
+table.data-table thead th:first-child,
+table.data-table tbody td:first-child {
+  width: 26%;
   min-width: 200px;
+  max-width: 320px;
 }
-thead th.num,
-tbody td.num {
-  min-width: 80px;
-  width: 80px;
+table.data-table thead th.num:not(.sticky-col),
+table.data-table tbody td.num:not(.sticky-col) {
+  width: 80px !important;
+  min-width: 80px !important;
+  max-width: 100px;
 }
-thead th.sticky-col,
-tbody td.sticky-col {
-  min-width: 86px;
-  width: 86px;
+table.data-table thead th.sticky-col,
+table.data-table tbody td.sticky-col {
+  width: 86px !important;
+  min-width: 86px !important;
 }
 
 thead th {

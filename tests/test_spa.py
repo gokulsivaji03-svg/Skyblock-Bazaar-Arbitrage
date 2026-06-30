@@ -38,9 +38,10 @@ def test_bundle_wires_core_ui():
 
 def test_stylesheet_has_table_layout():
     _, _, css = _read_assets()
-    assert ".col-item" in css
+    assert ".data-table" in css
     assert ".sticky-col" in css
     assert "min-width:" in css and "1006px" in css
+    assert "table-layout:fixed" in css.replace(" ", "") or "table-layout: fixed" in css
     assert "color-mix" not in css
 
 

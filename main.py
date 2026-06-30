@@ -127,6 +127,17 @@ def player_lookup(username: str, profile: str = None):
 # host both the API and the SPA. In dev the Vite server handles the UI instead.
 _DIST = os.path.join(os.path.dirname(__file__), "app", "page", "dist")
 if os.path.isdir(_DIST):
+    from fastapi.responses import FileResponse
+
+    @app.get("/", include_in_schema=False)
+    def spa_index():
+        """Always revalidate index.html so hashed asset URLs stay fresh after deploy."""
+        return FileResponse(
+            os.path.join(_DIST, "index.html"),
+            media_type="text/html",
+            headers={"Cache-Control": "no-cache"},
+        )
+
     app.mount("/", StaticFiles(directory=_DIST, html=True), name="spa")
 else:
 
