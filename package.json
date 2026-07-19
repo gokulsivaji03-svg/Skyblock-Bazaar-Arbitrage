@@ -1,0 +1,19 @@
+{
+  "name": "bazaar-lens",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:web": "vite",
+    "dev:api": "uvicorn api.index:app --reload --host 0.0.0.0 --port 8001",
+    "dev:all": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.0.0"
+  }
+}

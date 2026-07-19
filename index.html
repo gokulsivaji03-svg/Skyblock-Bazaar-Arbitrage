@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A live Hypixel SkyBlock Bazaar scanner for balanced, high-liquidity trades."
+    />
+    <meta name="theme-color" content="#0a0b0d" />
+    <title>Bazaar Lens — SkyBlock Market Signals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Bazaar Lens home">
+          <span class="brand-mark" aria-hidden="true">B</span>
+          <span>Bazaar<span>Lens</span></span>
+        </a>
+
+        <div class="market-state" aria-label="Market connection status">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>Hypixel API</span>
+          <span class="market-state__time" id="updated-at">Connecting…</span>
+        </div>
+
+        <button class="refresh-button" id="refresh" type="button">
+          <span class="refresh-icon" aria-hidden="true">↻</span>
+          <span>Refresh market</span>
+        </button>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <p class="eyebrow">Live market intelligence</p>
+            <h1 id="page-title">Find the trades where <em>flow meets margin.</em></h1>
+            <p class="hero-description">
+              A sharper view of the SkyBlock Bazaar, filtered for balanced demand and
+              meaningful weekly liquidity.
+            </p>
+          </div>
+
+          <div class="hero-note" aria-label="Active scanner rules">
+            <span class="hero-note__label">Scanner rules</span>
+            <span><strong>90%+</strong> flow balance</span>
+            <span><strong>100m+</strong> matched coins</span>
+          </div>
+        </section>
+
+        <section class="metrics" aria-label="Market summary">
+          <article class="metric-card metric-card--primary">
+            <div class="metric-card__topline">
+              <span>Qualified markets</span>
+              <span class="metric-glyph" aria-hidden="true">◎</span>
+            </div>
+            <strong id="metric-markets">—</strong>
+            <small>passing both scanner rules</small>
+          </article>
+          <article class="metric-card">
+            <div class="metric-card__topline">
+              <span>Matched liquidity</span>
+              <span class="metric-glyph" aria-hidden="true">↔</span>
+            </div>
+            <strong id="metric-liquidity">—</strong>
+            <small>weekly coins across results</small>
+          </article>
+          <article class="metric-card">
+            <div class="metric-card__topline">
+              <span>Median spread</span>
+              <span class="metric-glyph" aria-hidden="true">↗</span>
+            </div>
+            <strong id="metric-spread">—</strong>
+            <small>after Bazaar tax</small>
+          </article>
+          <article class="metric-card">
+            <div class="metric-card__topline">
+              <span>Average balance</span>
+              <span class="metric-glyph" aria-hidden="true">≋</span>
+            </div>
+            <strong id="metric-balance">—</strong>
+            <small>buy and sell coin flow</small>
+          </article>
+        </section>
+
+        <section class="explorer" aria-labelledby="explorer-title">
+          <div class="explorer-heading">
+            <div>
+              <p class="section-kicker">Market explorer</p>
+              <h2 id="explorer-title">Balanced opportunities</h2>
+            </div>
+            <p id="result-count" class="result-count" aria-live="polite">Preparing scanner…</p>
+          </div>
+
+          <div class="toolbar">
+            <label class="search-field" for="search">
+              <span class="search-icon" aria-hidden="true"></span>
+              <span class="sr-only">Search markets</span>
+              <input
+                id="search"
+                name="search"
+                type="search"
+                placeholder="Search an item or market ID"
+                autocomplete="off"
+              />
+              <kbd>/</kbd>
+            </label>
+
+            <div class="filter-list" aria-label="Market strategy filters">
+              <button class="filter-chip is-active" type="button" data-filter="all">All signals</button>
+              <button class="filter-chip" type="button" data-filter="margin">High margin</button>
+              <button class="filter-chip" type="button" data-filter="balance">Tight balance</button>
+              <button class="filter-chip" type="button" data-filter="liquidity">Deep liquidity</button>
+              <button class="filter-chip" type="button" data-filter="watchlist">
+                <span aria-hidden="true">☆</span> Watchlist
+              </button>
+            </div>
+          </div>
+
+          <div id="data-state" class="table-shell" aria-busy="true">
+            <div id="loading-state" class="loading-state" aria-label="Loading market data">
+              <div class="loading-line loading-line--wide"></div>
+              <div class="loading-line"></div>
+              <div class="loading-line loading-line--medium"></div>
+              <div class="loading-line"></div>
+            </div>
+
+            <div id="error-state" class="error-state" hidden>
+              <span class="error-state__mark" aria-hidden="true">!</span>
+              <h3>The market feed didn’t respond.</h3>
+              <p>Keep this tab open and try the connection again.</p>
+              <button id="retry" type="button">Retry connection</button>
+            </div>
+
+            <table class="market-table" hidden>
+              <thead>
+                <tr>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button sort-button--left" type="button" data-sort="item">Market</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-sort="profit">Net spread</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-sort="purchase">Buy order</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-sort="sale">Sell offer</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-sort="balance">Flow balance</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-sort="matched">Matched / week</button>
+                  </th>
+                  <th scope="col"><span class="sr-only">Watchlist</span></th>
+                </tr>
+              </thead>
+              <tbody id="items"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="explorer forge-explorer" aria-labelledby="forge-title">
+          <div class="explorer-heading forge-heading">
+            <div>
+              <p class="section-kicker">Forge crafting arb</p>
+              <h2 id="forge-title">Two costs. One Bazaar exit.</h2>
+              <p class="forge-description">
+                Compare buying the immediate recipe parts from the Bazaar with forging every
+                forgeable component first. Final sale value always comes from the Bazaar.
+              </p>
+            </div>
+            <div class="forge-heading-meta">
+              <div class="forge-route-legend" aria-label="Forge calculation routes">
+                <span><i class="route-dot route-dot--bazaar"></i>Bazaar parts</span>
+                <span><i class="route-dot route-dot--recursive"></i>Forge chain</span>
+              </div>
+              <p id="forge-result-count" class="result-count" aria-live="polite">Preparing Forge recipes…</p>
+            </div>
+          </div>
+
+          <div class="calculation-note">
+            <span aria-hidden="true">≠</span>
+            <p>
+              Costs are never pooled or minimized between routes. Forge chain only uses Bazaar
+              prices when a component has no Forge recipe.
+            </p>
+          </div>
+
+          <div class="toolbar">
+            <label class="search-field" for="forge-search">
+              <span class="search-icon" aria-hidden="true"></span>
+              <span class="sr-only">Search Forge recipes</span>
+              <input
+                id="forge-search"
+                name="forge-search"
+                type="search"
+                placeholder="Search a Bazaar-traded Forge item"
+                autocomplete="off"
+              />
+            </label>
+
+            <div class="filter-list" aria-label="Forge profit filters">
+              <button class="filter-chip is-active" type="button" data-forge-filter="all">All recipes</button>
+              <button class="filter-chip" type="button" data-forge-filter="bazaar">Bazaar parts</button>
+              <button class="filter-chip" type="button" data-forge-filter="recursive">Forge chain</button>
+              <button class="filter-chip" type="button" data-forge-filter="profitable">Profitable</button>
+            </div>
+          </div>
+
+          <div id="forge-data-state" class="table-shell" aria-busy="true">
+            <div id="forge-loading-state" class="loading-state" aria-label="Loading Forge data">
+              <div class="loading-line loading-line--wide"></div>
+              <div class="loading-line"></div>
+              <div class="loading-line loading-line--medium"></div>
+            </div>
+
+            <div id="forge-error-state" class="error-state" hidden>
+              <span class="error-state__mark" aria-hidden="true">!</span>
+              <h3>Forge prices didn’t resolve.</h3>
+              <p>The Bazaar feed may be between updates. Try the calculation again.</p>
+              <button id="forge-retry" type="button">Retry calculation</button>
+            </div>
+
+            <table class="market-table forge-table" hidden>
+              <thead>
+                <tr>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button sort-button--left" type="button" data-forge-sort="item">Forge item</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-forge-sort="bazaarProfit">Bazaar parts profit</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-forge-sort="recursiveProfit">Forge-chain profit</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-forge-sort="bazaarCost">Bazaar parts cost</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-forge-sort="recursiveCost">Forge-chain cost</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-forge-sort="sale">Bazaar sell</button>
+                  </th>
+                  <th scope="col" aria-sort="none">
+                    <button class="sort-button" type="button" data-forge-sort="time">Final forge</button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="forge-items"></tbody>
+            </table>
+          </div>
+          <p class="forge-source-note">
+            Recipe definitions: NotEnoughUpdates repository snapshot. Prices: live Hypixel Bazaar order book.
+          </p>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Bazaar Lens</span>
+        <span>Market data provided by the Hypixel API. Recipe data sourced from NEU. Signals are informational, not guarantees.</span>
+      </footer>
+    </div>
+
+    <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+    <aside class="signal-drawer" id="signal-drawer" aria-labelledby="drawer-title" aria-hidden="true">
+      <button class="drawer-close" id="drawer-close" type="button" aria-label="Close market details">×</button>
+      <p class="section-kicker" id="drawer-kicker">Signal detail</p>
+      <div id="drawer-content"></div>
+    </aside>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
